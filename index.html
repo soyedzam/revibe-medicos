@@ -81,7 +81,7 @@
 
   /* ===================== LAYOUT ===================== */
   .wrap{max-width:var(--maxw);margin:0 auto;padding:0 26px}
-  .sec{padding:clamp(72px,11vw,128px) 0}
+  .sec{padding:clamp(72px,11vw,128px) 0;scroll-margin-top:84px}
   .eyebrow{
     font-family:var(--body);
     font-size:11px;font-weight:600;letter-spacing:.28em;text-transform:uppercase;
@@ -999,21 +999,8 @@
   var FULL = !REDUCE && !LITE;          // efectos completos
   var MOTION = !REDUCE;                 // movimiento permitido (incluye lite ligero)
 
-  /* ---------- Smooth scroll físico (Lenis con fallback nativo) ---------- */
-  if(MOTION){
-    var ls=el('script');
-    ls.src='https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js';
-    ls.async=true;
-    ls.onload=function(){ try{
-      var lenis=new Lenis({lerp:0.12, smoothWheel:true, wheelMultiplier:1});
-      (function r(t){lenis.raf(t);requestAnimationFrame(r);})();
-      doc.querySelectorAll('a[href^="#"]').forEach(function(a){
-        a.addEventListener('click',function(e){var h=a.getAttribute('href');if(h.length>1){var t=doc.querySelector(h);if(t){e.preventDefault();lenis.scrollTo(t,{offset:-78});}}});
-      });
-    }catch(e){} };
-    // onerror → scroll-behavior:smooth nativo (ya en CSS) sigue funcionando
-    doc.head.appendChild(ls);
-  }
+  /* Scroll nativo: la rueda/trackpad responden 1:1. El deslizamiento suave de las
+     anclas lo da scroll-behavior:smooth (CSS) + scroll-margin-top. Sin Lenis. */
 
   /* ---------- Topbar: estado al hacer scroll ---------- */
   var topbar=doc.querySelector('.topbar');
