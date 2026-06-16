@@ -545,9 +545,6 @@
   .hero .wrap{transition:none}
   @media(prefers-reduced-motion:reduce){ .cta-hero{animation:none!important} }
 
-  /* ---- Performance: render diferido de secciones fuera de viewport ---- */
-  .sec{content-visibility:auto;contain-intrinsic-size:auto 720px}
-
   @media(prefers-reduced-motion:reduce){
     .reveal{filter:none;transition:opacity .01ms,transform .01ms}
     .hero h1.kin .w > span{transform:none;animation:none}
@@ -740,7 +737,7 @@
     <p class="lead reveal">Entrar como fundador empieza en $400,000 MXN. Apartas tu lugar con $25,000 mientras revisas todo con calma. Lo de aquí abajo es la estructura; el modelo a detalle se abre cuando firmas el NDA.</p>
 
     <div class="num-grid">
-      <div class="num reveal"><div class="k">Ticket de entrada</div><div class="v">$400,000 <small>MXN</small></div><div class="note">Participación fraccional de fundador.</div></div>
+      <div class="num reveal"><div class="k">Participación de entrada</div><div class="v">$400,000 <small>MXN</small></div><div class="note">Participación fraccional de fundador.</div></div>
       <div class="num reveal"><div class="k">Apartado</div><div class="v">$25,000 <small>MXN</small></div><div class="note">Aparta tu lugar mientras evalúas.</div></div>
       <div class="num reveal"><div class="k">Flujo operativo</div><div class="v">hasta 9%<small>anual*</small></div><div class="note">Sobre ocupación modelada al 50%.</div></div>
       <div class="num reveal"><div class="k">Plusvalía estimada</div><div class="v">~11%<small>anual*</small></div><div class="note">En un mercado en expansión.</div></div>
@@ -1008,7 +1005,7 @@
     ls.src='https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js';
     ls.async=true;
     ls.onload=function(){ try{
-      var lenis=new Lenis({lerp:0.09, smoothWheel:true, wheelMultiplier:1});
+      var lenis=new Lenis({lerp:0.12, smoothWheel:true, wheelMultiplier:1});
       (function r(t){lenis.raf(t);requestAnimationFrame(r);})();
       doc.querySelectorAll('a[href^="#"]').forEach(function(a){
         a.addEventListener('click',function(e){var h=a.getAttribute('href');if(h.length>1){var t=doc.querySelector(h);if(t){e.preventDefault();lenis.scrollTo(t,{offset:-78});}}});
@@ -1224,24 +1221,7 @@
     evaluate();
   }
 
-  /* ---- Profundidad por scroll en el héroe (frame-driven) ---- */
-  if(FULL){
-    var hero=doc.querySelector('.hero'); var hw=hero && hero.querySelector('.wrap');
-    if(hw){
-      var ticking=false;
-      addEventListener('scroll',function(){
-        if(ticking) return; ticking=true;
-        requestAnimationFrame(function(){
-          var y=scrollY;
-          if(y < innerHeight){
-            hw.style.transform='translateY('+(y*0.14)+'px)';
-            hw.style.opacity=String(Math.max(1 - y/ (innerHeight*0.9), 0));
-          }
-          ticking=false;
-        });
-      },{passive:true});
-    }
-  }
+  /* Profundidad por scroll del héroe: eliminada — desvanecía los CTAs y perjudicaba la lectura. */
 })();
 </script>
 </body>
